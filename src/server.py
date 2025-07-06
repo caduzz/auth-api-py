@@ -1,11 +1,10 @@
-from typing import Union
 from fastapi import FastAPI
-from controllers import user_router
+from routes.user_routes import router as user_router
 
 app = FastAPI()
 
 @app.get("/")
-def home():
-    return {"mensagem": "Servidor rodando"}
+async def root():
+    return {"status": 200, "message": "API is running"}
 
 app.include_router(user_router)

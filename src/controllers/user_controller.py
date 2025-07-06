@@ -1,28 +1,22 @@
-import sqlite3
+from models.user_model import User
+from fastapi import HTTPException
 
-from fastapi import (
-  APIRouter,
-  HTTPException
-)
+class UserController:
+  def __init__(self):
+    self.model = User()
 
-cursor = sqlite3.connect('meu_banco.db').cursor()
+  def get_user(self, user_id: int):
+    user = self.model.get_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
 
-router = APIRouter(prefix="/users", tags=["Users"])
+  def get_all_users(self):
+    return self.model.get_all()
 
-@router.get("/{user_id}")
-async def get_user(*, user_id: int):
-  user = cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
-  if user:
-    return {"user": user}
-
-  raise HTTPException(status_code=404, detail="User not found")
-
-@router.get("/")
-async def get_users():
-  return {"users": cursor.execute("SELECT * FROM users").fetchall()}
-
-@router.post("/")
-async def create_user(user: dict):
-  cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", (user["name"], user["email"]))
-  cursor.connection.commit()  
-  return {"message": "User created", "user": user}
+  def create_user(self, user_data: dict):
+    name = user_data.get("name")
+    email = user_data.get("email")
+    if not name or not email:
+        raise HTTPException(status_code=400, detail="Name and email are required")
+    return self.model.create(name, email)

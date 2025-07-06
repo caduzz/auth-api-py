@@ -1,6 +1,47 @@
-venv
-__pycache__
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-*.pyc
+# Virtual environment
+venv/
+env/
+.venv/
 
+# SQLite database
+*.db
+*.sqlite3
+
+# VSCode settings (opcional)
+.vscode/
+
+# Pytest cache
+.pytest_cache/
+
+# MyPy cache
+.mypy_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Logs
+*.log
+
+# IDEs
+.idea/
+*.swp
+
+# Python egg
+*.egg
+*.egg-info/
+dist/
+build/
+
+# dotenv files (caso use)
 .env
+.env.*
+
+# FastAPI auto-generated OpenAPI cache (raro)
+openapi.json
